@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
 // FIXME: GoogleFonts not working
-//import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+// -- Light Theme ---
+const lightPrimary = Color.fromARGB(255, 229, 247, 125);
+const lightAccent = Color.fromARGB(255, 130, 2, 99);
+const lightBackground = Color.fromARGB(255, 212, 228, 236);
+const lightVeto = Color.fromARGB(255, 247, 161, 196);
+const lightResult = Color.fromARGB(255, 145, 255, 10);
+const lightButton = Color.fromARGB(255, 255, 10, 96);
+const ColorScheme lightColorScheme = ColorScheme(
+    brightness: Brightness.light,
+    primary: lightPrimary,
+    onPrimary: lightAccent,
+    secondary: lightBackground,
+    onSecondary: lightAccent,
+    error: lightPrimary,
+    onError: lightAccent,
+    background: lightBackground,
+    onBackground: lightBackground,
+    surface: lightBackground,
+    onSurface: lightAccent);
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -12,33 +32,49 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Movie Picker App',
-      home: FirstPage(title: 'Movie Picker'),
-    );
+    return MaterialApp(
+        title: 'Movie Picker',
+        home: const HomePage(title: 'Movie Picker'),
+        theme: ThemeData(colorScheme: lightColorScheme)
+        //darkTheme: ThemeData(brightness: Brightness.dark),
+        );
   }
 }
 
-class FirstPage extends StatelessWidget {
-  const FirstPage({Key? key, required this.title}) : super(key: key);
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-          child: ElevatedButton(
-        onPressed: () async {
-          var messsage = await Navigator.push(context,
-              MaterialPageRoute(builder: (context) {
-            return const SecondPage(title: 'Veto');
-          }));
-          print(messsage);
-        },
-        child: const Text('Pick 3 Movies'),
-      )),
+    return Column(
+      children: <Widget>[
+        AppBar(
+            title: Text(
+          title,
+          style: GoogleFonts.creepster(fontSize: 40),
+        )),
+        const SizedBox(height: 50),
+        Text(
+            'Picking something to watch is hard.\n\n Let us pick three movies from your list,\n then you and a friend each veto one.',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyText1),
+        const SizedBox(height: 50),
+        Container(
+            alignment: Alignment.center,
+            child: Image.asset('assets/images/recolored_popcorn.png')),
+        const SizedBox(height: 50),
+        ElevatedButton(
+          onPressed: () async {
+            var messsage = await Navigator.push(context,
+                MaterialPageRoute(builder: (context) {
+              return const SecondPage(title: 'Veto 2');
+            }));
+            print(messsage);
+          },
+          child: Text('Pick 3',
+              style: GoogleFonts.creepster(fontSize: 40, color: lightButton)),
+        ),
+      ],
     );
   }
 }
@@ -50,7 +86,7 @@ class SecondPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title, style: GoogleFonts.creepster(fontSize: 40)),
       ),
       body: ListView.separated(
           separatorBuilder: (BuildContext context, int index) =>
@@ -58,7 +94,7 @@ class SecondPage extends StatelessWidget {
           itemCount: 3,
           padding: const EdgeInsets.all(10),
           itemBuilder: (BuildContext context, int index) {
-            return SelectableCard(
+            return const SelectableCard(
                 card: Card(
                     child: ListTile(
                         title: Text('Insert Movie Title Here'),
@@ -90,7 +126,7 @@ class _SelectableCardState extends State<SelectableCard> {
         });
       },
       child: Card(
-        color: isSelect ? Colors.red : widget.card.color,
+        color: isSelect ? lightVeto : widget.card.color,
         shape: widget.card.shape,
         child: widget.card.child,
       ),
