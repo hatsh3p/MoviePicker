@@ -37,7 +37,7 @@ class FirstPage extends StatelessWidget {
           }));
           print(messsage);
         },
-        child: Text('Pick 3 Movies'),
+        child: const Text('Pick 3 Movies'),
       )),
     );
   }
@@ -49,10 +49,27 @@ class SecondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: Center(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: ListView.separated(
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(),
+          itemCount: 3,
+          padding: const EdgeInsets.all(10),
+          itemBuilder: (BuildContext context, int index) {
+            return const Card(
+                child: ListTile(
+                    title: Text('Insert Movie Title Here'),
+                    subtitle: Text('Insert description here'),
+                    leading: Icon(Icons.local_movies)));
+          }),
+    );
+  }
+}
+
+/*    
+            },
             child: SelectableCard(
           card: Card(
               elevation: 20,
@@ -69,6 +86,7 @@ class SecondPage extends StatelessWidget {
         )));
   }
 }
+*/
 
 class SelectableCard extends StatefulWidget {
   final Card card;
