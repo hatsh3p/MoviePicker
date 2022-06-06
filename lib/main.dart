@@ -58,35 +58,16 @@ class SecondPage extends StatelessWidget {
           itemCount: 3,
           padding: const EdgeInsets.all(10),
           itemBuilder: (BuildContext context, int index) {
-            return const Card(
-                child: ListTile(
-                    title: Text('Insert Movie Title Here'),
-                    subtitle: Text('Insert description here'),
-                    leading: Icon(Icons.local_movies)));
+            return SelectableCard(
+                card: Card(
+                    child: ListTile(
+                        title: Text('Insert Movie Title Here'),
+                        subtitle: Text('Insert description here'),
+                        leading: Icon(Icons.local_movies))));
           }),
     );
   }
 }
-
-/*    
-            },
-            child: SelectableCard(
-          card: Card(
-              elevation: 20,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: const SizedBox(
-                width: 500,
-                height: 150,
-                child: Center(
-                    child: Text('Lord of the Rings: The Fellowship of the Ring',
-                        style: TextStyle(fontSize: 20))),
-              )),
-        )));
-  }
-}
-*/
 
 class SelectableCard extends StatefulWidget {
   final Card card;
