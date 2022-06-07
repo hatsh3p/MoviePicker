@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget {
           onPressed: () async {
             var messsage = await Navigator.push(context,
                 MaterialPageRoute(builder: (context) {
-              return const SecondPage(title: 'Movie Picker');
+              return const MoviePage(title: 'Movie Picker');
             }));
             print(messsage);
           },
@@ -80,8 +80,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class SecondPage extends StatelessWidget {
-  const SecondPage({Key? key, required this.title}) : super(key: key);
+class MoviePage extends StatelessWidget {
+  const MoviePage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
