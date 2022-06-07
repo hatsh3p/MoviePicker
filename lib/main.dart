@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
+  final List<String> movies = [
+    "Lord of the Rings",
+    "Jane Eyre",
+    "Wall-E",
+    "خلي بالك من زوزو",
+    "The Truman Show"
+  ];
   runApp(const MyApp());
 }
 
