@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'movie.dart';
+import 'movie_picker.dart';
 
 void main() {
-  final List<String> movies = [
-    "Lord of the Rings",
-    "Jane Eyre",
-    "Wall-E",
-    "خلي بالك من زوزو",
-    "The Truman Show"
-  ];
+  List<Movie> movieList = createMovieListFromCSV("list.csv");
   runApp(const MyApp());
 }
 
@@ -16,9 +12,9 @@ void main() {
 const lightPrimary = Color.fromARGB(255, 229, 247, 125);
 const lightAccent = Color.fromARGB(255, 130, 2, 99);
 const lightBackground = Color.fromARGB(255, 212, 228, 236);
-const lightVeto = Color.fromARGB(255, 247, 161, 196);
+const lightVeto = Color.fromARGB(150, 247, 161, 196);
 const lightResult = Color.fromARGB(255, 145, 255, 10);
-const lightButton = Color.fromARGB(255, 255, 10, 96);
+const lightButton = Color.fromARGB(255, 255, 0, 200);
 const ColorScheme lightColorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: lightPrimary,
@@ -35,6 +31,7 @@ const ColorScheme lightColorScheme = ColorScheme(
 //TODO: Add Dark Theme.
 
 class MyApp extends StatelessWidget {
+  // TODO: Replace with const MyApp
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -52,6 +49,7 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
   final String title;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -95,9 +93,12 @@ class MoviePage extends StatelessWidget {
     return Column(children: <Widget>[
       AppBar(title: Text(title, style: GoogleFonts.creepster(fontSize: 40))),
       const SizedBox(height: 30),
-      Text('Veto two:',
+      Text('Veto two',
           textAlign: TextAlign.center,
-          style: GoogleFonts.creepster(fontSize: 30, color: lightButton)),
+          style: GoogleFonts.creepster(
+              fontSize: 40,
+              color: lightButton,
+              decoration: TextDecoration.none)),
       const SizedBox(height: 20),
       Container(
         height: 400,
