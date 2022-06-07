@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// FIXME: GoogleFonts not working
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -25,6 +24,8 @@ const ColorScheme lightColorScheme = ColorScheme(
     onBackground: lightBackground,
     surface: lightBackground,
     onSurface: lightAccent);
+
+//TODO: Add Dark Theme.
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -67,7 +68,7 @@ class HomePage extends StatelessWidget {
           onPressed: () async {
             var messsage = await Navigator.push(context,
                 MaterialPageRoute(builder: (context) {
-              return const SecondPage(title: 'Veto 2');
+              return const SecondPage(title: 'Movie Picker');
             }));
             print(messsage);
           },
@@ -84,24 +85,30 @@ class SecondPage extends StatelessWidget {
   final String title;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title, style: GoogleFonts.creepster(fontSize: 40)),
-      ),
-      body: ListView.separated(
-          separatorBuilder: (BuildContext context, int index) =>
-              const Divider(),
-          itemCount: 3,
-          padding: const EdgeInsets.all(10),
-          itemBuilder: (BuildContext context, int index) {
-            return const SelectableCard(
-                card: Card(
-                    child: ListTile(
-                        title: Text('Insert Movie Title Here'),
-                        subtitle: Text('Insert description here'),
-                        leading: Icon(Icons.local_movies))));
-          }),
-    );
+    return Column(children: <Widget>[
+      AppBar(title: Text(title, style: GoogleFonts.creepster(fontSize: 40))),
+      const SizedBox(height: 30),
+      Text('Veto two:',
+          textAlign: TextAlign.center,
+          style: GoogleFonts.creepster(fontSize: 30, color: lightButton)),
+      const SizedBox(height: 20),
+      Container(
+        height: 400,
+        child: ListView.separated(
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
+            itemCount: 3,
+            padding: const EdgeInsets.all(10),
+            itemBuilder: (BuildContext context, int index) {
+              return const SelectableCard(
+                  card: Card(
+                      child: ListTile(
+                          title: Text('Insert Movie Title Here'),
+                          subtitle: Text('Insert description here'),
+                          leading: Icon(Icons.local_movies))));
+            }),
+      )
+    ]);
   }
 }
 
