@@ -3,16 +3,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'movie.dart';
 import 'movie_picker.dart';
 
-void main() {
-  List<Movie> movieList = createMovieListFromCSV("list.csv");
-  runApp(const MyApp());
+void main() async {
+  // TODO: Matan to help you get rid of this.
+  WidgetsFlutterBinding.ensureInitialized();
+  final movieList = await createMovieListFromCSV("assets/list.csv");
+  runApp(MyApp(movies: movieList));
 }
 
 // -- Light Theme ---
 const lightPrimary = Color.fromARGB(255, 229, 247, 125);
 const lightAccent = Color.fromARGB(255, 130, 2, 99);
 const lightBackground = Color.fromARGB(255, 212, 228, 236);
-const lightVeto = Color.fromARGB(150, 247, 161, 196);
+const lightVeto = Color.fromARGB(255, 255, 186, 213);
 const lightResult = Color.fromARGB(255, 145, 255, 10);
 const lightButton = Color.fromARGB(255, 255, 0, 200);
 const ColorScheme lightColorScheme = ColorScheme(
@@ -31,23 +33,30 @@ const ColorScheme lightColorScheme = ColorScheme(
 //TODO: Add Dark Theme.
 
 class MyApp extends StatelessWidget {
+  final List<Movie> movies;
+
   // TODO: Replace with const MyApp
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({required this.movies, Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Movie Picker',
-        home: const HomePage(title: 'Movie Picker'),
-        theme: ThemeData(colorScheme: lightColorScheme)
-        //darkTheme: ThemeData(brightness: Brightness.dark),
-        );
+      title: 'Movie Picker',
+      home: HomePage(title: 'Movie Picker', movies: movies),
+      theme: ThemeData(colorScheme: lightColorScheme),
+      //darkTheme: ThemeData(brightness: Brightness.dark),
+    );
   }
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+  final List<Movie> movies;
+  const HomePage({
+    Key? key,
+    required this.title,
+    required this.movies,
+  }) : super(key: key);
   final String title;
 
   @override
@@ -73,7 +82,10 @@ class HomePage extends StatelessWidget {
           onPressed: () async {
             var messsage = await Navigator.push(context,
                 MaterialPageRoute(builder: (context) {
-              return const MoviePage(title: 'Movie Picker');
+              return MoviePage(
+                title: 'Movie Picker',
+                movies: pickThreeMovies(movies),
+              );
             }));
             print(messsage);
           },
@@ -86,36 +98,45 @@ class HomePage extends StatelessWidget {
 }
 
 class MoviePage extends StatelessWidget {
-  const MoviePage({Key? key, required this.title}) : super(key: key);
+  const MoviePage({
+    Key? key,
+    required this.title,
+    required this.movies,
+  }) : super(key: key);
   final String title;
+  final List<Movie> movies;
+
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       AppBar(title: Text(title, style: GoogleFonts.creepster(fontSize: 40))),
       const SizedBox(height: 30),
-      Text('Veto two',
+      Text('Veto Two',
           textAlign: TextAlign.center,
           style: GoogleFonts.creepster(
               fontSize: 40,
               color: lightButton,
               decoration: TextDecoration.none)),
       const SizedBox(height: 20),
-      Container(
-        height: 400,
-        child: ListView.separated(
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
-            itemCount: 3,
-            padding: const EdgeInsets.all(10),
-            itemBuilder: (BuildContext context, int index) {
-              return const SelectableCard(
+      SizedBox(
+          height: 400,
+          child: ListView.separated(
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+              itemCount: movies.length,
+              padding: const EdgeInsets.all(10),
+              itemBuilder: (BuildContext context, int index) {
+                final movie = movies[index];
+                return SelectableCard(
                   card: Card(
-                      child: ListTile(
-                          title: Text('Insert Movie Title Here'),
-                          subtitle: Text('Insert description here'),
-                          leading: Icon(Icons.local_movies))));
-            }),
-      )
+                    child: ListTile(
+                      title: Text(movie.name),
+                      subtitle: Text('${movie.year} ${movie.genre}'),
+                      leading: const Icon(Icons.local_movies),
+                    ),
+                  ),
+                );
+              }))
     ]);
   }
 }
