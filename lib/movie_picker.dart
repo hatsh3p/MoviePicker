@@ -20,17 +20,20 @@ Future<List<Movie>> createMovieListFromCSV(String path) async {
     if (equalsIgnoreCase(watchedColumn, "yes")) {
       watched = true;
     }
-    Movie movie = Movie(name: name, genre: genre, year: year, watched: watched);
-    movies.add(movie);
+    if (!watched) {
+      Movie movie =
+          Movie(name: name, genre: genre, year: year, watched: watched);
+      movies.add(movie);
+    }
   }
   return movies;
 }
 
 List<Movie> pickThreeMovies(List<Movie> list) {
   List<Movie> threeMovies = [];
+  list.shuffle();
   for (int i = 0; i < 3; i++) {
-    var random = Random().nextInt(list.length);
-    threeMovies.add(list[random]);
+    threeMovies.add(list[i]);
   }
   return threeMovies;
 }
